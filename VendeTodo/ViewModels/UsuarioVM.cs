@@ -7,6 +7,7 @@ namespace VendeTodo.ViewModels
 {
     public class UsuarioVM
     {
+        public int idUsuario { get; set; }
         public string name { get; set; }
         public string password { get; set; }
 
