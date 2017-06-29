@@ -19,7 +19,7 @@
     <!-- Bootstrap Core CSS -->
     @Styles.Render("~/bundles/css")
     @Styles.Render("~/_layout/css")
-    @if (ViewBag.Title == "Cuenta")
+    @if (ViewBag.Title == VendeTodo.Helpers.ConstantHelpers.DetalleCuenta.cuentaViewName)
     {
         @Styles.Render("~/cuenta/css")
     }
@@ -286,7 +286,8 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/_layout/scripts")
-    @if (ViewBag.Title == "Cuenta") {
+    @if (ViewBag.Title == VendeTodo.Helpers.ConstantHelpers.DetalleCuenta.cuentaViewName)
+    {
         @Scripts.Render("~/cuenta/scripts")
     }
 </body>

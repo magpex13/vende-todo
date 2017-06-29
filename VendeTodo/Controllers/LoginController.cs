@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using VendeTodo.ViewModels;
+using VendeTodo.Helpers;
 
 namespace VendeTodo.Controllers
 {
@@ -17,8 +18,8 @@ namespace VendeTodo.Controllers
         [HttpPost]
         public ActionResult Login(UsuarioVM usuario)
         {
-            Session["idUsuario"] = usuario.idUsuario;
-            return RedirectToAction("Cuenta","DetalleCuenta");
+            Session.setIdUsuario(usuario.idUsuario);
+            return RedirectToAction(ConstantHelpers.DetalleCuenta.cuentaViewName, ConstantHelpers.DetalleCuenta.controllerName);
         }
 
         // GET: Login/Details/5

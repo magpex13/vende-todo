@@ -1,6 +1,6 @@
 ﻿@model VendeTodo.ViewModels.UsuarioVM
 @{
-    ViewBag.Title = "Login";
+    ViewBag.Title = VendeTodo.Helpers.ConstantHelpers.Login.loginViewName;
     Layout = "";
 }
 
@@ -23,7 +23,7 @@
     <section id="wrapper" class="login-register">
         <div class="login-box login-sidebar">
             <div class="white-box">
-                @using (Html.BeginForm("Login", "Login", FormMethod.Post, new { @class = "form-horizontal form-material", @id = "loginform" }))
+                @using (Html.BeginForm(VendeTodo.Helpers.ConstantHelpers.Login.loginViewName, VendeTodo.Helpers.ConstantHelpers.Login.controllerName, FormMethod.Post, new { @class = "form-horizontal form-material", @id = "loginform" }))
                 {
                     <a href="javascript:void(0)" class="text-center db">
                         <img src="../Content/img/agileadmin-logo.png" alt="Home" />
