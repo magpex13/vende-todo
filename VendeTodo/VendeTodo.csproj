@@ -160,25 +160,33 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\DetalleCuentaController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\ConstantHelpers.cs" />
+    <Compile Include="Helpers\ExtensionHelpers.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\DetalleCuentaVM.cs" />
+    <Compile Include="ViewModels\ListDetalleCuentaVM.cs" />
     <Compile Include="ViewModels\UsuarioVM.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\css\animate.css" />
     <Content Include="Content\css\blue.css" />
     <Content Include="Content\css\bootstrap.min.css" />
+    <Content Include="Content\css\default-dark.css" />
+    <Content Include="Content\css\sidebar-nav.min.css" />
     <Content Include="Content\css\spinners.css" />
     <Content Include="Content\css\style.css" />
+    <Content Include="Content\css\tablesaw.css" />
     <Content Include="Content\fonts\fontawesome-webfont3295.html" />
     <Content Include="Content\img\agileadmin-logo.png" />
     <Content Include="Content\img\agileadmin-text.png" />
@@ -189,6 +197,8 @@
     <Content Include="Content\js\jquery.slimscroll.js" />
     <Content Include="Content\js\jQuery.style.switcher.js" />
     <Content Include="Content\js\sidebar-nav.min.js" />
+    <Content Include="Content\js\tablesaw-init.js" />
+    <Content Include="Content\js\tablesaw.js" />
     <Content Include="Content\js\waves.js" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -236,6 +246,7 @@
     <Content Include="Content\fonts\fontawesome-webfont3295.woff" />
     <None Include="Project_Readme.html" />
     <Content Include="Views\Login\Login.cshtml" />
+    <Content Include="Views\DetalleCuenta\Cuenta.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

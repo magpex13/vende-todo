@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using VendeTodo.Helpers;
 
 namespace VendeTodo
 {
@@ -16,7 +17,7 @@ namespace VendeTodo
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Login", action = "Login", id = UrlParameter.Optional }
+                defaults: new { controller = ConstantHelpers.Login.controllerName, action = ConstantHelpers.Login.loginViewName, id = UrlParameter.Optional }
             );
         }
     }
