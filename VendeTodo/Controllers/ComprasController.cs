@@ -3,32 +3,30 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using VendeTodo.ViewModels;
 
 namespace VendeTodo.Controllers
 {
-    public class DetalleCuentaController : Controller
+    public class ComprasController : Controller
     {
-        // GET: DetalleCuenta
-        public ActionResult Cuentas()
+        // GET: Compras
+        public ActionResult Index()
         {
-            DetalleCuentaVM objDetalle = new DetalleCuentaVM();
             return View();
         }
 
-        // GET: DetalleCuenta/Details/5
+        // GET: Compras/Details/5
         public ActionResult Details(int id)
         {
             return View();
         }
 
-        // GET: DetalleCuenta/Create
+        // GET: Compras/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: DetalleCuenta/Create
+        // POST: Compras/Create
         [HttpPost]
         public ActionResult Create(FormCollection collection)
         {
@@ -44,13 +42,13 @@ namespace VendeTodo.Controllers
             }
         }
 
-        // GET: DetalleCuenta/Edit/5
+        // GET: Compras/Edit/5
         public ActionResult Edit(int id)
         {
             return View();
         }
 
-        // POST: DetalleCuenta/Edit/5
+        // POST: Compras/Edit/5
         [HttpPost]
         public ActionResult Edit(int id, FormCollection collection)
         {
@@ -66,13 +64,13 @@ namespace VendeTodo.Controllers
             }
         }
 
-        // GET: DetalleCuenta/Delete/5
+        // GET: Compras/Delete/5
         public ActionResult Delete(int id)
         {
             return View();
         }
 
-        // POST: DetalleCuenta/Delete/5
+        // POST: Compras/Delete/5
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {
