@@ -9,7 +9,7 @@ namespace VendeTodo.Controllers
     public class ComprasController : Controller
     {
         // GET: Compras
-        public ActionResult Index()
+        public ActionResult Compras()
         {
             return View();
         }

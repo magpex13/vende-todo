@@ -19,7 +19,8 @@
     <!-- Bootstrap Core CSS -->
     @Styles.Render("~/bundles/css")
     @Styles.Render("~/_layout/css")
-    @if (ViewBag.Title == VendeTodo.Helpers.ConstantHelpers.DetalleCuenta.cuentaViewName)
+    @if (ViewBag.Title == VendeTodo.Helpers.ConstantHelpers.DetalleCuenta.cuentaViewName
+        || ViewBag.Title == VendeTodo.Helpers.ConstantHelpers.Compras.compraViewName)
     {
         @Styles.Render("~/cuenta/css")
     }
@@ -286,7 +287,8 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/_layout/scripts")
-    @if (ViewBag.Title == VendeTodo.Helpers.ConstantHelpers.DetalleCuenta.cuentaViewName)
+    @if (ViewBag.Title == VendeTodo.Helpers.ConstantHelpers.DetalleCuenta.cuentaViewName
+        || ViewBag.Title == VendeTodo.Helpers.ConstantHelpers.Compras.compraViewName)
     {
         @Scripts.Render("~/cuenta/scripts")
     }

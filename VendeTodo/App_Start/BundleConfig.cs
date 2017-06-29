@@ -15,7 +15,7 @@ namespace VendeTodo
             bundles.Add(new StyleBundle("~/bundles/css").Include(
                      "~/Content/css/bootstrap.min.css"));
 
-            // Login
+            //Login
             bundles.Add(new ScriptBundle("~/login/scripts").Include(
                       "~/Content/js/sidebar-nav.min.js",
                       "~/Content/js/jquery.slimscroll.js",
@@ -38,13 +38,14 @@ namespace VendeTodo
                       "~/Content/css/animate.css",
                       "~/Content/css/style.css",
                       "~/Content/css/default-dark.css"));
-            //Cuenta
+            //Cuentas y Compras
             bundles.Add(new ScriptBundle("~/cuenta/scripts").Include(
                       "~/Content/js/tablesaw.js",
                       "~/Content/js/tablesaw-init.js",
                       "~/Content/js/jQuery.style.switcher.js"));
             bundles.Add(new StyleBundle("~/cuenta/css").Include(
                       "~/Content/css/tablesaw.css"));
+
         }
     }
 }
