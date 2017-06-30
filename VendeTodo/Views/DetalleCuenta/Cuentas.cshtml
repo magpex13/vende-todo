@@ -1,0 +1,39 @@
+﻿
+@{
+    ViewBag.Title = VendeTodo.Helpers.ConstantHelpers.DetalleCuenta.cuentaViewName;
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="white-box">
+            <h3 class="box-title m-b-0">Kitchen Sink</h3>
+            <p class="text-muted m-b-20">Swipe Mode, ModeSwitch, Minimap, Sortable, SortableSwitch</p>
+            <table class="tablesaw table-bordered table-hover table" data-tablesaw-mode="swipe" data-tablesaw-sortable data-tablesaw-sortable-switch data-tablesaw-minimap data-tablesaw-mode-switch>
+                <thead>
+                    <tr>
+                        <th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="persist">Movie Title</th>
+                        <th scope="col" data-tablesaw-sortable-col data-tablesaw-sortable-default-col data-tablesaw-priority="3">Rank</th>
+                        <th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="2">Year</th>
+                        <th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="1">
+                            <abbr title="Rotten Tomato Rating">Rating</abbr>
+                        </th>
+                        <th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="4">Gross</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < 10; i++)
+                    {
+                        <tr>
+                            <td class="title"><a href="@Url.Action(VendeTodo.Helpers.ConstantHelpers.Compras.compraViewName,VendeTodo.Helpers.ConstantHelpers.Compras.controllerName)">Avatar</a></td>
+                            <td>1</td>
+                            <td>2009</td>
+                            <td>83%</td>
+                            <td>$2.7B</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+

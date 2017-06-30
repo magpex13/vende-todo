@@ -8,5 +8,10 @@ namespace VendeTodo.ViewModels
     public class ListDetalleCuentaVM
     {
         public List<DetalleCuentaVM> lstDetalleCuentas { get; set; }
+
+        public ListDetalleCuentaVM() 
+        {
+            lstDetalleCuentas = new List<DetalleCuentaVM>();
+        }
     }
 }

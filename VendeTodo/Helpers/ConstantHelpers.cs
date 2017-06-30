@@ -15,7 +15,7 @@ namespace VendeTodo.Helpers
         public static class DetalleCuenta
         {
             public static string controllerName = "DetalleCuenta";
-            public static string cuentaViewName = "Cuenta";
+            public static string cuentaViewName = "Cuentas";
             public static List<string> columNamesCuentaView = new List<string>()
             {
                 "Cuenta ID",
@@ -24,6 +24,17 @@ namespace VendeTodo.Helpers
                 "Fecha del Préstamo",
                 "Fecha Final"
             };
+        }
+        public static class Compras
+        {
+            public static string controllerName = "Compras";
+            public static string compraViewName = "Compras";
+            public static string detalleCompraViewName = "Detalle Compra";
+
+        }
+        public static class Productos
+        {
+            public static string controllerName = "Productos";
         }
 
         public static string idUsuarioName = "idUsuario";
