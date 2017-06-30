@@ -18,6 +18,10 @@
     <title>@ViewBag.Title</title>
     <!-- Bootstrap Core CSS -->
     @Styles.Render("~/bundles/css")
+    @if (ViewBag.Title == VendeTodo.Helpers.ConstantHelpers.Compras.detalleCompraViewName)
+    {
+        @Styles.Render("~/detalleCompra/css")
+    }
     @Styles.Render("~/_layout/css")
     @if (ViewBag.Title == VendeTodo.Helpers.ConstantHelpers.DetalleCuenta.cuentaViewName
         || ViewBag.Title == VendeTodo.Helpers.ConstantHelpers.Compras.compraViewName)
