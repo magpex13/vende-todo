@@ -287,6 +287,10 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/_layout/scripts")
+    @if (ViewBag.Title == VendeTodo.Helpers.ConstantHelpers.Compras.detalleCompraViewName)
+    {
+        @Scripts.Render("~/detalleCompra/scripts")
+    }
     @if (ViewBag.Title == VendeTodo.Helpers.ConstantHelpers.DetalleCuenta.cuentaViewName
         || ViewBag.Title == VendeTodo.Helpers.ConstantHelpers.Compras.compraViewName)
     {

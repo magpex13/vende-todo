@@ -3,41 +3,30 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using VendeTodo.ViewModels;
 
 namespace VendeTodo.Controllers
 {
-    public class ComprasController : Controller
+    public class ProductosController : Controller
     {
-        // GET: Compras
-        public ActionResult Compras()
-        {
-            ListaCompraVM compras = new ListaCompraVM();
-            compras.lstCompras.Add(new CompraVM());
-            compras.lstCompras.Add(new CompraVM());
-            compras.lstCompras.Add(new CompraVM());
-
-            return View(compras);
-        }
-
-        public ActionResult DetalleCompra()
+        // GET: Productos
+        public ActionResult Index()
         {
             return View();
         }
 
-        // GET: Compras/Details/5
+        // GET: Productos/Details/5
         public ActionResult Details(int id)
         {
             return View();
         }
 
-        // GET: Compras/Create
+        // GET: Productos/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Compras/Create
+        // POST: Productos/Create
         [HttpPost]
         public ActionResult Create(FormCollection collection)
         {
@@ -53,13 +42,13 @@ namespace VendeTodo.Controllers
             }
         }
 
-        // GET: Compras/Edit/5
+        // GET: Productos/Edit/5
         public ActionResult Edit(int id)
         {
             return View();
         }
 
-        // POST: Compras/Edit/5
+        // POST: Productos/Edit/5
         [HttpPost]
         public ActionResult Edit(int id, FormCollection collection)
         {
@@ -75,13 +64,13 @@ namespace VendeTodo.Controllers
             }
         }
 
-        // GET: Compras/Delete/5
+        // GET: Productos/Delete/5
         public ActionResult Delete(int id)
         {
             return View();
         }
 
-        // POST: Compras/Delete/5
+        // POST: Productos/Delete/5
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {

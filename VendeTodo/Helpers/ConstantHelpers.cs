@@ -29,6 +29,12 @@ namespace VendeTodo.Helpers
         {
             public static string controllerName = "Compras";
             public static string compraViewName = "Compras";
+            public static string detalleCompraViewName = "Detalle Compra";
+
+        }
+        public static class Productos
+        {
+            public static string controllerName = "Productos";
         }
 
         public static string idUsuarioName = "idUsuario";
