@@ -5,10 +5,11 @@ using System.Web;
 using System.Web.Mvc;
 using VendeTodo.ViewModels;
 using VendeTodo.Helpers;
+using VendeTodo.Models;
 
 namespace VendeTodo.Controllers
 {
-    public class LoginController : Controller
+    public class LoginController : BaseController
     {
         // GET: Login
         public ActionResult Login()
@@ -18,8 +19,22 @@ namespace VendeTodo.Controllers
         [HttpPost]
         public ActionResult Login(UsuarioVM usuario)
         {
-            Session.setIdUsuario(usuario.idUsuario);
+            Usuario objUsuario = context.Usuario.FirstOrDefault(x => x.DNI == usuario.DNI && x.Password == usuario.password);
+
+            if (objUsuario == null)
+            {
+                return View();
+            }
+            Session.setIdUsuario(objUsuario.UsuarioID);
+            Session.setImgUsuario(objUsuario.Foto);
             return RedirectToAction(ConstantHelpers.DetalleCuenta.cuentaViewName, ConstantHelpers.DetalleCuenta.controllerName);
+        }
+
+        public ActionResult Logout()
+        {
+            Session.setIdUsuario(null);
+            Session.setImgUsuario(null);
+            return RedirectToAction(ConstantHelpers.Login.loginViewName, ConstantHelpers.Login.controllerName);
         }
 
         // GET: Login/Details/5

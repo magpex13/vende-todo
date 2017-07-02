@@ -4,16 +4,26 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using VendeTodo.ViewModels;
+using VendeTodo.Helpers;
 
 namespace VendeTodo.Controllers
 {
-    public class DetalleCuentaController : Controller
+    public class DetalleCuentaController : BaseController
     {
         // GET: DetalleCuenta
         public ActionResult Cuentas()
         {
-            DetalleCuentaVM objDetalle = new DetalleCuentaVM();
-            return View();
+            ListDetalleCuentaVM lstDetalleCuentas = new ListDetalleCuentaVM();
+            int usuarioid = Session.getIdUsuario();
+            lstDetalleCuentas.lstDetalleCuentas = context.DetalleCuenta.Where(x => x.CuentaID == usuarioid).Select(x=>new DetalleCuentaVM()
+            {
+                idCuenta = x.CuentaID,
+                tasaInteresMora = x.TasaInteres1.Interes,
+                fechaInicial = x.FechaInicio,
+                fechaFinal = x.FechaFinal,
+                estado = x.EstadoDetalleCuenta.Nombre
+            }).ToList();
+            return View(lstDetalleCuentas);
         }
 
         // GET: DetalleCuenta/Details/5

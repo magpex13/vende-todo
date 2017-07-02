@@ -1,4 +1,4 @@
-﻿
+﻿@model VendeTodo.ViewModels.ListDetalleCuentaVM
 @{
     ViewBag.Title = VendeTodo.Helpers.ConstantHelpers.DetalleCuenta.cuentaViewName;
 }
@@ -11,24 +11,24 @@
             <table class="tablesaw table-bordered table-hover table" data-tablesaw-mode="swipe" data-tablesaw-sortable data-tablesaw-sortable-switch data-tablesaw-minimap data-tablesaw-mode-switch>
                 <thead>
                     <tr>
-                        <th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="persist">Movie Title</th>
-                        <th scope="col" data-tablesaw-sortable-col data-tablesaw-sortable-default-col data-tablesaw-priority="3">Rank</th>
-                        <th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="2">Year</th>
+                        <th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="persist">Cuenta N°</th>
+                        <th scope="col" data-tablesaw-sortable-col data-tablesaw-sortable-default-col data-tablesaw-priority="3">Tasa Interés Mora</th>
+                        <th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="2">Fecha Inicial</th>
                         <th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="1">
-                            <abbr title="Rotten Tomato Rating">Rating</abbr>
+                            <abbr title="Rotten Tomato Rating">Fecha Final</abbr>
                         </th>
-                        <th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="4">Gross</th>
+                        <th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="4">Estado</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @for (int i = 0; i < 10; i++)
+                    @foreach(var item in Model.lstDetalleCuentas)
                     {
                         <tr>
-                            <td class="title"><a href="@Url.Action(VendeTodo.Helpers.ConstantHelpers.Compras.compraViewName,VendeTodo.Helpers.ConstantHelpers.Compras.controllerName)">Avatar</a></td>
-                            <td>1</td>
-                            <td>2009</td>
-                            <td>83%</td>
-                            <td>$2.7B</td>
+                            <td class="title"><a href="@Url.Action(VendeTodo.Helpers.ConstantHelpers.Compras.compraViewName,VendeTodo.Helpers.ConstantHelpers.Compras.controllerName)">Cuenta @item.idCuenta</a></td>
+                            <td>@item.tasaInteresMora</td>
+                            <td>@item.fechaInicial</td>
+                            <td>@item.fechaFinal</td>
+                            <td>@item.estado</td>
                         </tr>
                     }
                 </tbody>

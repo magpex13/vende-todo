@@ -15,9 +15,18 @@ namespace VendeTodo.Helpers
         {
             return sess[ConstantHelpers.idUsuarioName].toInteger();
         }
-        public static void setIdUsuario(this HttpSessionStateBase sess,int id)
+        public static void setIdUsuario(this HttpSessionStateBase sess,int? id)
         {
             sess[ConstantHelpers.idUsuarioName] = id;
+        }
+        public static void setImgUsuario(this HttpSessionStateBase sess, string img)
+        {
+            sess[ConstantHelpers.imgUsuario] = img;
+        }
+
+        public static bool existsImgUsuario(this HttpSessionStateBase sess)
+        {
+            return sess[ConstantHelpers.imgUsuario] != null ? true : false;
         }
     }
 }

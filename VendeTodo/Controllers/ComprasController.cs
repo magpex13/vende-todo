@@ -7,7 +7,7 @@ using VendeTodo.ViewModels;
 
 namespace VendeTodo.Controllers
 {
-    public class ComprasController : Controller
+    public class ComprasController : BaseController
     {
         // GET: Compras
         public ActionResult Compras()
