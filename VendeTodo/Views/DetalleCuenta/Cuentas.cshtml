@@ -26,8 +26,8 @@
                         <tr>
                             <td class="title"><a href="@Url.Action(VendeTodo.Helpers.ConstantHelpers.Compras.compraViewName,VendeTodo.Helpers.ConstantHelpers.Compras.controllerName,new { detallecuentaid = item.idDetalleCuenta })">Cuenta @item.idDetalleCuenta</a></td>
                             <td>@item.tasaInteresMora</td>
-                            <td>@item.fechaInicial</td>
-                            <td>@item.fechaFinal</td>
+                            <td>@item.fechaInicial.ToShortDateString()</td>
+                            <td>@item.fechaFinal.ToShortDateString()</td>
                             <td>@item.estado</td>
                         </tr>
                     }

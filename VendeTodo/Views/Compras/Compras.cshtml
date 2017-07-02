@@ -26,7 +26,7 @@
                         <tr>
                             <td class="title"><a href="@Url.Action("DetalleCompra",VendeTodo.Helpers.ConstantHelpers.Compras.controllerName,new { compraid = item.idCompra})">Compra @item.idCompra</a></td>
                             <td>@item.montoTotal</td>
-                            <td>@item.fechaCompra</td>
+                            <td>@item.fechaCompra.ToShortDateString()</td>
                         </tr>
                     }
                     
