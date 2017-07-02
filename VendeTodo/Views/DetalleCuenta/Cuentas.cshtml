@@ -24,7 +24,7 @@
                     @foreach(var item in Model.lstDetalleCuentas)
                     {
                         <tr>
-                            <td class="title"><a href="@Url.Action(VendeTodo.Helpers.ConstantHelpers.Compras.compraViewName,VendeTodo.Helpers.ConstantHelpers.Compras.controllerName)">Cuenta @item.idCuenta</a></td>
+                            <td class="title"><a href="@Url.Action(VendeTodo.Helpers.ConstantHelpers.Compras.compraViewName,VendeTodo.Helpers.ConstantHelpers.Compras.controllerName,new { detallecuentaid = item.idDetalleCuenta })">Cuenta @item.idDetalleCuenta</a></td>
                             <td>@item.tasaInteresMora</td>
                             <td>@item.fechaInicial</td>
                             <td>@item.fechaFinal</td>

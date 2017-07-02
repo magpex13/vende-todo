@@ -11,24 +11,22 @@
             <table class="tablesaw table-bordered table-hover table" data-tablesaw-mode="swipe">
                 <thead>
                     <tr>
-                        <th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="persist">Movie Title</th>
-                        <th scope="col" data-tablesaw-sortable-col data-tablesaw-sortable-default-col data-tablesaw-priority="3">Rank</th>
-                        <th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="2">Year</th>
-                        <th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="1">
+                        <th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="persist">Compra N°</th>
+                        <th scope="col" data-tablesaw-sortable-col data-tablesaw-sortable-default-col data-tablesaw-priority="3">Monto Total</th>
+                        <th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="2">Fecha Compra</th>
+                        @*<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="1">
                             <abbr title="Rotten Tomato Rating">Rating</abbr>
                         </th>
-                        <th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="4">Gross</th>
+                        <th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="4">Gross</th>*@
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var item in Model.lstCompras)
                     {
                         <tr>
-                            <td class="title"><a href="@Url.Action("DetalleCompra",VendeTodo.Helpers.ConstantHelpers.Compras.controllerName)">Avatar</a></td>
-                            <td>1</td>
-                            <td>2009</td>
-                            <td>83%</td>
-                            <td>$2.7B</td>
+                            <td class="title"><a href="@Url.Action("DetalleCompra",VendeTodo.Helpers.ConstantHelpers.Compras.controllerName,new { compraid = item.idCompra})">Compra @item.idCompra</a></td>
+                            <td>@item.montoTotal</td>
+                            <td>@item.fechaCompra</td>
                         </tr>
                     }
                     

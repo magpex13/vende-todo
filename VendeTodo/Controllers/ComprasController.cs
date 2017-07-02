@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using VendeTodo.Models;
 using VendeTodo.ViewModels;
 
 namespace VendeTodo.Controllers
@@ -10,19 +11,30 @@ namespace VendeTodo.Controllers
     public class ComprasController : BaseController
     {
         // GET: Compras
-        public ActionResult Compras()
+        public ActionResult Compras(int detallecuentaid)
         {
             ListaCompraVM compras = new ListaCompraVM();
-            compras.lstCompras.Add(new CompraVM());
-            compras.lstCompras.Add(new CompraVM());
-            compras.lstCompras.Add(new CompraVM());
+            compras.lstCompras = context.Compra.Where(x => x.CuentaID == detallecuentaid).Select(x => new CompraVM()
+            {
+                idCompra = x.CompraID,
+                fechaCompra = x.FechaCompra,
+                montoTotal = x.MontoTotal
+            }).ToList();
 
             return View(compras);
         }
 
-        public ActionResult DetalleCompra()
+        public ActionResult DetalleCompra(int compraid)
         {
-            return View();
+            CompraVM objCompraVM = new CompraVM(context.Compra.FirstOrDefault(x => x.CompraID == compraid));
+            DetalleCompraVM objDetalleCompraVM = new DetalleCompraVM(objCompraVM, context.ProductoCompra.Where(x => x.CompraID == compraid).Select(x => new ProductoCompraVM()
+            {
+                nombreProducto = x.Producto.Nombre,
+                cantidad = x.Cantidad,
+                descuento = x.Descuento,
+                precioUnitario = x.PrecioUnitario
+            }).ToList());
+            return View(objDetalleCompraVM);
         }
 
         // GET: Compras/Details/5

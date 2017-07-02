@@ -17,7 +17,7 @@ namespace VendeTodo.Controllers
             int usuarioid = Session.getIdUsuario();
             lstDetalleCuentas.lstDetalleCuentas = context.DetalleCuenta.Where(x => x.CuentaID == usuarioid).Select(x=>new DetalleCuentaVM()
             {
-                idCuenta = x.CuentaID,
+                idDetalleCuenta = x.DetallaCuentaID,
                 tasaInteresMora = x.TasaInteres1.Interes,
                 fechaInicial = x.FechaInicio,
                 fechaFinal = x.FechaFinal,

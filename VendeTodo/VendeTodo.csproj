@@ -232,9 +232,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\CompraVM.cs" />
+    <Compile Include="ViewModels\DetalleCompraVM.cs" />
     <Compile Include="ViewModels\DetalleCuentaVM.cs" />
     <Compile Include="ViewModels\ListaCompraVM.cs" />
     <Compile Include="ViewModels\ListDetalleCuentaVM.cs" />
+    <Compile Include="ViewModels\ProductoCompraVM.cs" />
+    <Compile Include="ViewModels\ProductoVM.cs" />
     <Compile Include="ViewModels\UsuarioVM.cs" />
   </ItemGroup>
   <ItemGroup>
