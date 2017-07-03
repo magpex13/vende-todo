@@ -27,6 +27,7 @@ namespace VendeTodo.Controllers
             }
             Session.setIdUsuario(objUsuario.UsuarioID);
             Session.setImgUsuario(objUsuario.Foto);
+            Session.setNombreUsuario(objUsuario.PrimerNombre + " " + objUsuario.ApellidoPaterno);
             return RedirectToAction(ConstantHelpers.DetalleCuenta.cuentaViewName, ConstantHelpers.DetalleCuenta.controllerName);
         }
 
@@ -34,6 +35,7 @@ namespace VendeTodo.Controllers
         {
             Session.setIdUsuario(null);
             Session.setImgUsuario(null);
+            Session.setNombreUsuario(null);
             return RedirectToAction(ConstantHelpers.Login.loginViewName, ConstantHelpers.Login.controllerName);
         }
 

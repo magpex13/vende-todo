@@ -6,8 +6,8 @@
 <div class="row">
     <div class="col-lg-12">
         <div class="white-box">
-            <h3 class="box-title m-b-0">Swipe Table</h3>
-            <p class="text-muted m-b-20">The Column Swipe Table allows the user to select which columns they want to be visible.</p>
+            <h3 class="box-title m-b-0">Monto Adeudado : @(Model.lstCompras.Sum(x=>x.montoTotal) - Model.lstPagos.Sum(x=>x.montoPago) - Model.pagoInicial)</h3>
+            <p class="text-muted m-b-20">Monto Pagado : @(Model.lstPagos.Sum(x => x.montoPago) + Model.pagoInicial)</p>
             <table class="tablesaw table-bordered table-hover table" data-tablesaw-mode="swipe">
                 <thead>
                     <tr>
@@ -29,7 +29,6 @@
                             <td>@item.fechaCompra.ToShortDateString()</td>
                         </tr>
                     }
-                    
                 </tbody>
             </table>
         </div>

@@ -60,15 +60,23 @@
 
                             }
                         </div>
-                        <a href="#" class="dropdown-toggle u-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Steave Gection <span class="caret"></span></a>
+                            @if (Session[VendeTodo.Helpers.ConstantHelpers.nombreUsuario] == null)
+                            {
+                                <a href="#" class="dropdown-toggle u-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">User <span class="caret"></span></a>
+                            }
+                            else
+                            {
+                                <a href="#" class="dropdown-toggle u-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@Session[VendeTodo.Helpers.ConstantHelpers.nombreUsuario] <span class="caret"></span></a>
+
+                            }
                         <ul class="dropdown-menu animated flipInY">
-                            <li><a href="#"><i class="ti-user"></i> My Profile</a></li>
+                            @*<li><a href="#"><i class="ti-user"></i> My Profile</a></li>
                             <li><a href="#"><i class="ti-wallet"></i> My Balance</a></li>
                             <li><a href="#"><i class="ti-email"></i> Inbox</a></li>
                             <li role="separator" class="divider"></li>
                             <li><a href="#"><i class="ti-settings"></i> Account Setting</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a href="@Url.Action("Logout",VendeTodo.Helpers.ConstantHelpers.Login.controllerName)"><i class="fa fa-power-off"></i> Logout</a></li>
+                            <li role="separator" class="divider"></li>*@
+                            <li><a href="@Url.Action("Logout",VendeTodo.Helpers.ConstantHelpers.Login.controllerName)"><i class="fa fa-power-off"></i> Cerrar Sesión</a></li>
                         </ul>
                     </div>
                 </div>
@@ -124,7 +132,7 @@
                     <!-- .breadcrumb -->
                     <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
                         <ol class="breadcrumb">
-                            <li><a href="#">Dashboard</a></li>
+                            <li><a href="@Url.Action(VendeTodo.Helpers.ConstantHelpers.DetalleCuenta.cuentaViewName,VendeTodo.Helpers.ConstantHelpers.DetalleCuenta.controllerName)">Cuentas</a></li>
                             <li class="active">@ViewBag.Title</li>
                         </ol>
                     </div>

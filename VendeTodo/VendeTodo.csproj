@@ -236,6 +236,7 @@
     <Compile Include="ViewModels\DetalleCuentaVM.cs" />
     <Compile Include="ViewModels\ListaCompraVM.cs" />
     <Compile Include="ViewModels\ListDetalleCuentaVM.cs" />
+    <Compile Include="ViewModels\PagosVM.cs" />
     <Compile Include="ViewModels\ProductoCompraVM.cs" />
     <Compile Include="ViewModels\ProductoVM.cs" />
     <Compile Include="ViewModels\UsuarioVM.cs" />

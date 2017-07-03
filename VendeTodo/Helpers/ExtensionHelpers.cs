@@ -23,10 +23,17 @@ namespace VendeTodo.Helpers
         {
             sess[ConstantHelpers.imgUsuario] = img;
         }
-
         public static bool existsImgUsuario(this HttpSessionStateBase sess)
         {
             return sess[ConstantHelpers.imgUsuario] != null ? true : false;
+        }
+        public static string getNombreUsuario(this HttpSessionStateBase sess)
+        {
+            return sess[ConstantHelpers.nombreUsuario].ToString();
+        }
+        public static void setNombreUsuario(this HttpSessionStateBase sess, string nombre)
+        {
+            sess[ConstantHelpers.nombreUsuario] = nombre;
         }
     }
 }

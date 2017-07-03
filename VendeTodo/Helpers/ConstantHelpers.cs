@@ -39,5 +39,6 @@ namespace VendeTodo.Helpers
 
         public static string idUsuarioName = "idUsuario";
         public static string imgUsuario = "imgUsuario";
+        public static string nombreUsuario = "nombreUsuario";
     }
 }
