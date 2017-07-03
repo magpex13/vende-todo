@@ -182,9 +182,6 @@
     <Compile Include="Models\Cuenta.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\DetalleCompra.cs">
-      <DependentUpon>Model.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\DetalleCuenta.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>

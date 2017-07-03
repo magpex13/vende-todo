@@ -18,7 +18,7 @@ namespace VendeTodo.Controllers
             lstDetalleCuentas.lstDetalleCuentas = context.DetalleCuenta.Where(x => x.CuentaID == usuarioid).Select(x=>new DetalleCuentaVM()
             {
                 idDetalleCuenta = x.DetallaCuentaID,
-                tasaInteresMora = x.TasaInteres1.Interes,
+                tasaInteresMora = x.TasaInteres.Interes,
                 fechaInicial = x.FechaInicio,
                 fechaFinal = x.FechaFinal,
                 estado = x.EstadoDetalleCuenta.Nombre

@@ -5,30 +5,27 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="f2f69860d17845639b241be1685d01c4" Name="Diagram1">
-        <EntityTypeShape EntityType="FinanzasModel.Compra" Width="1.5" PointX="7.5" PointY="3.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="FinanzasModel.Cuenta" Width="1.5" PointX="3" PointY="6.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="FinanzasModel.DetalleCompra" Width="1.5" PointX="9.75" PointY="4" IsExpanded="true" />
-        <EntityTypeShape EntityType="FinanzasModel.DetalleCuenta" Width="1.5" PointX="5.25" PointY="5.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="FinanzasModel.EstadoDetalleCuenta" Width="1.5" PointX="3" PointY="4.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="FinanzasModel.HistorialCuenta" Width="1.5" PointX="7.5" PointY="7" IsExpanded="true" />
-        <EntityTypeShape EntityType="FinanzasModel.Pago" Width="1.5" PointX="7.5" PointY="9.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="FinanzasModel.Producto" Width="1.5" PointX="7.5" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="FinanzasModel.ProductoCompra" Width="1.5" PointX="9.75" PointY="0.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="FinanzasModel.TasaInteres" Width="1.5" PointX="3" PointY="10.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="FinanzasModel.TipoInteres" Width="1.5" PointX="0.75" PointY="11.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="FinanzasModel.Usuario" Width="1.5" PointX="0.75" PointY="6.125" IsExpanded="true" />
-        <AssociationConnector Association="FinanzasModel.FK_Compra_DetalleCuenta" ManuallyRouted="false" />
-        <AssociationConnector Association="FinanzasModel.FK_DetalleCompra_Compra" ManuallyRouted="false" />
-        <AssociationConnector Association="FinanzasModel.FK_ProductoCompra_Compra1" ManuallyRouted="false" />
-        <AssociationConnector Association="FinanzasModel.FK_Cuenta_Usuario" ManuallyRouted="false" />
-        <AssociationConnector Association="FinanzasModel.FK_DetalleCuenta_Cuenta" ManuallyRouted="false" />
-        <AssociationConnector Association="FinanzasModel.FK_DetalleCuenta_EstadoDetalleCuenta" ManuallyRouted="false" />
-        <AssociationConnector Association="FinanzasModel.FK_DetalleCuenta_TasaInteres1" ManuallyRouted="false" />
-        <AssociationConnector Association="FinanzasModel.FK_DetalleCuenta_TasaInteres2" ManuallyRouted="false" />
-        <AssociationConnector Association="FinanzasModel.FK_HistorialCuenta_DetalleCuenta1" ManuallyRouted="false" />
-        <AssociationConnector Association="FinanzasModel.FK_Pago_DetalleCuenta1" ManuallyRouted="false" />
-        <AssociationConnector Association="FinanzasModel.FK_ProductoCompra_Producto" ManuallyRouted="false" />
-        <AssociationConnector Association="FinanzasModel.FK_TasaInteres_TipoInteres" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="FinanzasModel.Compra" Width="1.5" PointX="7.5" PointY="7" />
+        <EntityTypeShape EntityType="FinanzasModel.Cuenta" Width="1.5" PointX="3" PointY="4.125" />
+        <EntityTypeShape EntityType="FinanzasModel.DetalleCuenta" Width="1.5" PointX="5.25" PointY="3.375" />
+        <EntityTypeShape EntityType="FinanzasModel.EstadoDetalleCuenta" Width="1.5" PointX="3" PointY="0.875" />
+        <EntityTypeShape EntityType="FinanzasModel.HistorialCuenta" Width="1.5" PointX="7.5" PointY="4" />
+        <EntityTypeShape EntityType="FinanzasModel.Pago" Width="1.5" PointX="7.5" PointY="1.375" />
+        <EntityTypeShape EntityType="FinanzasModel.Producto" Width="1.5" PointX="7.5" PointY="10.125" />
+        <EntityTypeShape EntityType="FinanzasModel.ProductoCompra" Width="1.5" PointX="9.75" PointY="6.875" />
+        <EntityTypeShape EntityType="FinanzasModel.TasaInteres" Width="1.5" PointX="3" PointY="8.25" />
+        <EntityTypeShape EntityType="FinanzasModel.TipoInteres" Width="1.5" PointX="0.75" PointY="8.625" />
+        <EntityTypeShape EntityType="FinanzasModel.Usuario" Width="1.5" PointX="0.75" PointY="3.5" />
+        <AssociationConnector Association="FinanzasModel.FK_Compra_DetalleCuenta" />
+        <AssociationConnector Association="FinanzasModel.FK_ProductoCompra_Compra1" />
+        <AssociationConnector Association="FinanzasModel.FK_Cuenta_Usuario" />
+        <AssociationConnector Association="FinanzasModel.FK_DetalleCuenta_Cuenta" />
+        <AssociationConnector Association="FinanzasModel.FK_DetalleCuenta_EstadoDetalleCuenta" />
+        <AssociationConnector Association="FinanzasModel.FK_DetalleCuenta_TasaInteres2" />
+        <AssociationConnector Association="FinanzasModel.FK_HistorialCuenta_DetalleCuenta1" />
+        <AssociationConnector Association="FinanzasModel.FK_Pago_DetalleCuenta1" />
+        <AssociationConnector Association="FinanzasModel.FK_ProductoCompra_Producto" />
+        <AssociationConnector Association="FinanzasModel.FK_TasaInteres_TipoInteres" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

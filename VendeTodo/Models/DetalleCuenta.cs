@@ -24,19 +24,18 @@ namespace VendeTodo.Models
     
         public int DetallaCuentaID { get; set; }
         public int CuentaID { get; set; }
-        public Nullable<int> TasaInteresCompensatoriaID { get; set; }
         public int TasaInteresMoratoriaID { get; set; }
         public System.DateTime FechaInicio { get; set; }
         public System.DateTime FechaFinal { get; set; }
         public Nullable<decimal> PagoInicial { get; set; }
         public int EstadoID { get; set; }
+        public decimal ComisionPagoTardio { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Compra> Compra { get; set; }
         public virtual Cuenta Cuenta { get; set; }
         public virtual EstadoDetalleCuenta EstadoDetalleCuenta { get; set; }
         public virtual TasaInteres TasaInteres { get; set; }
-        public virtual TasaInteres TasaInteres1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<HistorialCuenta> HistorialCuenta { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -16,7 +16,7 @@ namespace VendeTodo.Controllers
             ListaCompraVM compras = new ListaCompraVM();
             compras.pagoInicial = context.DetalleCuenta.FirstOrDefault(x => x.DetallaCuentaID == detallecuentaid).PagoInicial;
             compras.pagoInicial = compras.pagoInicial == null ? 0 : compras.pagoInicial;
-            compras.lstCompras = context.Compra.Where(x => x.CuentaID == detallecuentaid).Select(x => new CompraVM()
+            compras.lstCompras = context.Compra.Where(x => x.DetalleCuentaID == detallecuentaid).Select(x => new CompraVM()
             {
                 idCompra = x.CompraID,
                 fechaCompra = x.FechaCompra,

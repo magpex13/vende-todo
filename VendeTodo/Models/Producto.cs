@@ -23,7 +23,7 @@ namespace VendeTodo.Models
         public int ProductoID { get; set; }
         public string Nombre { get; set; }
         public decimal PrecioUnitario { get; set; }
-        public byte[] ImagenReferencial { get; set; }
+        public string ImagenReferencial { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProductoCompra> ProductoCompra { get; set; }

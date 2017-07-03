@@ -27,7 +27,6 @@ namespace VendeTodo.Models
     
         public virtual DbSet<Compra> Compra { get; set; }
         public virtual DbSet<Cuenta> Cuenta { get; set; }
-        public virtual DbSet<DetalleCompra> DetalleCompra { get; set; }
         public virtual DbSet<DetalleCuenta> DetalleCuenta { get; set; }
         public virtual DbSet<EstadoDetalleCuenta> EstadoDetalleCuenta { get; set; }
         public virtual DbSet<HistorialCuenta> HistorialCuenta { get; set; }

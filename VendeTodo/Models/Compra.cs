@@ -17,18 +17,15 @@ namespace VendeTodo.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Compra()
         {
-            this.DetalleCompra = new HashSet<DetalleCompra>();
             this.ProductoCompra = new HashSet<ProductoCompra>();
         }
     
         public int CompraID { get; set; }
-        public int CuentaID { get; set; }
+        public int DetalleCuentaID { get; set; }
         public System.DateTime FechaCompra { get; set; }
         public decimal MontoTotal { get; set; }
     
         public virtual DetalleCuenta DetalleCuenta { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DetalleCompra> DetalleCompra { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProductoCompra> ProductoCompra { get; set; }
     }

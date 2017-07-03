@@ -4,13 +4,13 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="FinanzasModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="FinanzasModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Compra">
           <Key>
             <PropertyRef Name="CompraID" />
           </Key>
           <Property Name="CompraID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="CuentaID" Type="int" Nullable="false" />
+          <Property Name="DetalleCuentaID" Type="int" Nullable="false" />
           <Property Name="FechaCompra" Type="datetime2" Precision="0" Nullable="false" />
           <Property Name="MontoTotal" Type="decimal" Precision="18" Scale="2" Nullable="false" />
         </EntityType>
@@ -23,28 +23,18 @@
           <Property Name="FechaClausura" Type="datetime2" Precision="0" />
           <Property Name="EsActiva" Type="bit" Nullable="false" />
         </EntityType>
-        <EntityType Name="DetalleCompra">
-          <Key>
-            <PropertyRef Name="DetalleCompraID" />
-            <PropertyRef Name="CompraID" />
-          </Key>
-          <Property Name="DetalleCompraID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="CompraID" Type="int" Nullable="false" />
-          <Property Name="MontoParcial" Type="decimal" Precision="18" Scale="2" Nullable="false" />
-          <Property Name="EsEfectivo" Type="bit" Nullable="false" />
-        </EntityType>
         <EntityType Name="DetalleCuenta">
           <Key>
             <PropertyRef Name="DetallaCuentaID" />
           </Key>
           <Property Name="DetallaCuentaID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CuentaID" Type="int" Nullable="false" />
-          <Property Name="TasaInteresCompensatoriaID" Type="int" />
           <Property Name="TasaInteresMoratoriaID" Type="int" Nullable="false" />
           <Property Name="FechaInicio" Type="datetime2" Precision="0" Nullable="false" />
           <Property Name="FechaFinal" Type="datetime2" Precision="0" Nullable="false" />
           <Property Name="PagoInicial" Type="decimal" Precision="18" Scale="2" />
           <Property Name="EstadoID" Type="int" Nullable="false" />
+          <Property Name="ComisionPagoTardio" Type="decimal" Precision="18" Scale="2" Nullable="false" />
         </EntityType>
         <EntityType Name="EstadoDetalleCuenta">
           <Key>
@@ -81,7 +71,7 @@
           <Property Name="ProductoID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Nombre" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="PrecioUnitario" Type="decimal" Precision="18" Scale="2" Nullable="false" />
-          <Property Name="ImagenReferencial" Type="varbinary(max)" Nullable="false" />
+          <Property Name="ImagenReferencial" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
         <EntityType Name="ProductoCompra">
           <Key>
@@ -99,10 +89,10 @@
             <PropertyRef Name="TasaInteresID" />
           </Key>
           <Property Name="TasaInteresID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Interes" Type="decimal" Precision="18" Scale="18" Nullable="false" />
+          <Property Name="Interes" Type="decimal" Precision="18" Scale="5" Nullable="false" />
           <Property Name="TipoInteresID" Type="int" Nullable="false" />
           <Property Name="TiempoInteres" Type="int" Nullable="false" />
-          <Property Name="PeriodoCapitalizacion" Type="int" Nullable="false" />
+          <Property Name="PeriodoCapitalizacion" Type="int" />
         </EntityType>
         <EntityType Name="TipoInteres">
           <Key>
@@ -136,7 +126,7 @@
               <PropertyRef Name="DetallaCuentaID" />
             </Principal>
             <Dependent Role="Compra">
-              <PropertyRef Name="CuentaID" />
+              <PropertyRef Name="DetalleCuentaID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -149,18 +139,6 @@
             </Principal>
             <Dependent Role="Cuenta">
               <PropertyRef Name="CuentaID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_DetalleCompra_Compra">
-          <End Role="Compra" Type="Self.Compra" Multiplicity="1" />
-          <End Role="DetalleCompra" Type="Self.DetalleCompra" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Compra">
-              <PropertyRef Name="CompraID" />
-            </Principal>
-            <Dependent Role="DetalleCompra">
-              <PropertyRef Name="CompraID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -185,18 +163,6 @@
             </Principal>
             <Dependent Role="DetalleCuenta">
               <PropertyRef Name="EstadoID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_DetalleCuenta_TasaInteres1">
-          <End Role="TasaInteres" Type="Self.TasaInteres" Multiplicity="0..1" />
-          <End Role="DetalleCuenta" Type="Self.DetalleCuenta" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TasaInteres">
-              <PropertyRef Name="TasaInteresID" />
-            </Principal>
-            <Dependent Role="DetalleCuenta">
-              <PropertyRef Name="TasaInteresCompensatoriaID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -275,7 +241,6 @@
         <EntityContainer Name="FinanzasModelStoreContainer">
           <EntitySet Name="Compra" EntityType="Self.Compra" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Cuenta" EntityType="Self.Cuenta" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="DetalleCompra" EntityType="Self.DetalleCompra" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DetalleCuenta" EntityType="Self.DetalleCuenta" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EstadoDetalleCuenta" EntityType="Self.EstadoDetalleCuenta" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HistorialCuenta" EntityType="Self.HistorialCuenta" Schema="dbo" store:Type="Tables" />
@@ -293,20 +258,12 @@
             <End Role="Usuario" EntitySet="Usuario" />
             <End Role="Cuenta" EntitySet="Cuenta" />
           </AssociationSet>
-          <AssociationSet Name="FK_DetalleCompra_Compra" Association="Self.FK_DetalleCompra_Compra">
-            <End Role="Compra" EntitySet="Compra" />
-            <End Role="DetalleCompra" EntitySet="DetalleCompra" />
-          </AssociationSet>
           <AssociationSet Name="FK_DetalleCuenta_Cuenta" Association="Self.FK_DetalleCuenta_Cuenta">
             <End Role="Cuenta" EntitySet="Cuenta" />
             <End Role="DetalleCuenta" EntitySet="DetalleCuenta" />
           </AssociationSet>
           <AssociationSet Name="FK_DetalleCuenta_EstadoDetalleCuenta" Association="Self.FK_DetalleCuenta_EstadoDetalleCuenta">
             <End Role="EstadoDetalleCuenta" EntitySet="EstadoDetalleCuenta" />
-            <End Role="DetalleCuenta" EntitySet="DetalleCuenta" />
-          </AssociationSet>
-          <AssociationSet Name="FK_DetalleCuenta_TasaInteres1" Association="Self.FK_DetalleCuenta_TasaInteres1">
-            <End Role="TasaInteres" EntitySet="TasaInteres" />
             <End Role="DetalleCuenta" EntitySet="DetalleCuenta" />
           </AssociationSet>
           <AssociationSet Name="FK_DetalleCuenta_TasaInteres2" Association="Self.FK_DetalleCuenta_TasaInteres2">
@@ -334,22 +291,73 @@
             <End Role="TasaInteres" EntitySet="TasaInteres" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="FinanzasModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="FinanzasEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Compra" EntityType="FinanzasModel.Compra" />
+          <EntitySet Name="Cuenta" EntityType="FinanzasModel.Cuenta" />
+          <EntitySet Name="DetalleCuenta" EntityType="FinanzasModel.DetalleCuenta" />
+          <EntitySet Name="EstadoDetalleCuenta" EntityType="FinanzasModel.EstadoDetalleCuenta" />
+          <EntitySet Name="HistorialCuenta" EntityType="FinanzasModel.HistorialCuenta" />
+          <EntitySet Name="Pago" EntityType="FinanzasModel.Pago" />
+          <EntitySet Name="Producto" EntityType="FinanzasModel.Producto" />
+          <EntitySet Name="ProductoCompra" EntityType="FinanzasModel.ProductoCompra" />
+          <EntitySet Name="TasaInteres" EntityType="FinanzasModel.TasaInteres" />
+          <EntitySet Name="TipoInteres" EntityType="FinanzasModel.TipoInteres" />
+          <EntitySet Name="Usuario" EntityType="FinanzasModel.Usuario" />
+          <AssociationSet Name="FK_Compra_DetalleCuenta" Association="FinanzasModel.FK_Compra_DetalleCuenta">
+            <End Role="DetalleCuenta" EntitySet="DetalleCuenta" />
+            <End Role="Compra" EntitySet="Compra" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductoCompra_Compra1" Association="FinanzasModel.FK_ProductoCompra_Compra1">
+            <End Role="Compra" EntitySet="Compra" />
+            <End Role="ProductoCompra" EntitySet="ProductoCompra" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cuenta_Usuario" Association="FinanzasModel.FK_Cuenta_Usuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Cuenta" EntitySet="Cuenta" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DetalleCuenta_Cuenta" Association="FinanzasModel.FK_DetalleCuenta_Cuenta">
+            <End Role="Cuenta" EntitySet="Cuenta" />
+            <End Role="DetalleCuenta" EntitySet="DetalleCuenta" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DetalleCuenta_EstadoDetalleCuenta" Association="FinanzasModel.FK_DetalleCuenta_EstadoDetalleCuenta">
+            <End Role="EstadoDetalleCuenta" EntitySet="EstadoDetalleCuenta" />
+            <End Role="DetalleCuenta" EntitySet="DetalleCuenta" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DetalleCuenta_TasaInteres2" Association="FinanzasModel.FK_DetalleCuenta_TasaInteres2">
+            <End Role="TasaInteres" EntitySet="TasaInteres" />
+            <End Role="DetalleCuenta" EntitySet="DetalleCuenta" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HistorialCuenta_DetalleCuenta1" Association="FinanzasModel.FK_HistorialCuenta_DetalleCuenta1">
+            <End Role="DetalleCuenta" EntitySet="DetalleCuenta" />
+            <End Role="HistorialCuenta" EntitySet="HistorialCuenta" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Pago_DetalleCuenta1" Association="FinanzasModel.FK_Pago_DetalleCuenta1">
+            <End Role="DetalleCuenta" EntitySet="DetalleCuenta" />
+            <End Role="Pago" EntitySet="Pago" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductoCompra_Producto" Association="FinanzasModel.FK_ProductoCompra_Producto">
+            <End Role="Producto" EntitySet="Producto" />
+            <End Role="ProductoCompra" EntitySet="ProductoCompra" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TasaInteres_TipoInteres" Association="FinanzasModel.FK_TasaInteres_TipoInteres">
+            <End Role="TipoInteres" EntitySet="TipoInteres" />
+            <End Role="TasaInteres" EntitySet="TasaInteres" />
+          </AssociationSet>
+        </EntityContainer>
         <EntityType Name="Compra">
           <Key>
             <PropertyRef Name="CompraID" />
           </Key>
           <Property Name="CompraID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CuentaID" Type="Int32" Nullable="false" />
+          <Property Name="DetalleCuentaID" Type="Int32" Nullable="false" />
           <Property Name="FechaCompra" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="MontoTotal" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
-          <NavigationProperty Name="DetalleCuenta" Relationship="Self.FK_Compra_DetalleCuenta" FromRole="Compra" ToRole="DetalleCuenta" />
-          <NavigationProperty Name="DetalleCompra" Relationship="Self.FK_DetalleCompra_Compra" FromRole="Compra" ToRole="DetalleCompra" />
-          <NavigationProperty Name="ProductoCompra" Relationship="Self.FK_ProductoCompra_Compra1" FromRole="Compra" ToRole="ProductoCompra" />
+          <Property Name="MontoTotal" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <NavigationProperty Name="DetalleCuenta" Relationship="FinanzasModel.FK_Compra_DetalleCuenta" FromRole="Compra" ToRole="DetalleCuenta" />
+          <NavigationProperty Name="ProductoCompra" Relationship="FinanzasModel.FK_ProductoCompra_Compra1" FromRole="Compra" ToRole="ProductoCompra" />
         </EntityType>
         <EntityType Name="Cuenta">
           <Key>
@@ -359,19 +367,8 @@
           <Property Name="FechaApertura" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="FechaClausura" Type="DateTime" Precision="0" />
           <Property Name="EsActiva" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Usuario" Relationship="Self.FK_Cuenta_Usuario" FromRole="Cuenta" ToRole="Usuario" />
-          <NavigationProperty Name="DetalleCuenta" Relationship="Self.FK_DetalleCuenta_Cuenta" FromRole="Cuenta" ToRole="DetalleCuenta" />
-        </EntityType>
-        <EntityType Name="DetalleCompra">
-          <Key>
-            <PropertyRef Name="DetalleCompraID" />
-            <PropertyRef Name="CompraID" />
-          </Key>
-          <Property Name="DetalleCompraID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CompraID" Type="Int32" Nullable="false" />
-          <Property Name="MontoParcial" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
-          <Property Name="EsEfectivo" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Compra" Relationship="Self.FK_DetalleCompra_Compra" FromRole="DetalleCompra" ToRole="Compra" />
+          <NavigationProperty Name="Usuario" Relationship="FinanzasModel.FK_Cuenta_Usuario" FromRole="Cuenta" ToRole="Usuario" />
+          <NavigationProperty Name="DetalleCuenta" Relationship="FinanzasModel.FK_DetalleCuenta_Cuenta" FromRole="Cuenta" ToRole="DetalleCuenta" />
         </EntityType>
         <EntityType Name="DetalleCuenta">
           <Key>
@@ -379,27 +376,26 @@
           </Key>
           <Property Name="DetallaCuentaID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CuentaID" Type="Int32" Nullable="false" />
-          <Property Name="TasaInteresCompensatoriaID" Type="Int32" />
           <Property Name="TasaInteresMoratoriaID" Type="Int32" Nullable="false" />
           <Property Name="FechaInicio" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="FechaFinal" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="PagoInicial" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="EstadoID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Compra" Relationship="Self.FK_Compra_DetalleCuenta" FromRole="DetalleCuenta" ToRole="Compra" />
-          <NavigationProperty Name="Cuenta" Relationship="Self.FK_DetalleCuenta_Cuenta" FromRole="DetalleCuenta" ToRole="Cuenta" />
-          <NavigationProperty Name="EstadoDetalleCuenta" Relationship="Self.FK_DetalleCuenta_EstadoDetalleCuenta" FromRole="DetalleCuenta" ToRole="EstadoDetalleCuenta" />
-          <NavigationProperty Name="TasaInteres" Relationship="Self.FK_DetalleCuenta_TasaInteres1" FromRole="DetalleCuenta" ToRole="TasaInteres" />
-          <NavigationProperty Name="TasaInteres1" Relationship="Self.FK_DetalleCuenta_TasaInteres2" FromRole="DetalleCuenta" ToRole="TasaInteres" />
-          <NavigationProperty Name="HistorialCuenta" Relationship="Self.FK_HistorialCuenta_DetalleCuenta1" FromRole="DetalleCuenta" ToRole="HistorialCuenta" />
-          <NavigationProperty Name="Pago" Relationship="Self.FK_Pago_DetalleCuenta1" FromRole="DetalleCuenta" ToRole="Pago" />
+          <Property Name="ComisionPagoTardio" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <NavigationProperty Name="Compra" Relationship="FinanzasModel.FK_Compra_DetalleCuenta" FromRole="DetalleCuenta" ToRole="Compra" />
+          <NavigationProperty Name="Cuenta" Relationship="FinanzasModel.FK_DetalleCuenta_Cuenta" FromRole="DetalleCuenta" ToRole="Cuenta" />
+          <NavigationProperty Name="EstadoDetalleCuenta" Relationship="FinanzasModel.FK_DetalleCuenta_EstadoDetalleCuenta" FromRole="DetalleCuenta" ToRole="EstadoDetalleCuenta" />
+          <NavigationProperty Name="TasaInteres" Relationship="FinanzasModel.FK_DetalleCuenta_TasaInteres2" FromRole="DetalleCuenta" ToRole="TasaInteres" />
+          <NavigationProperty Name="HistorialCuenta" Relationship="FinanzasModel.FK_HistorialCuenta_DetalleCuenta1" FromRole="DetalleCuenta" ToRole="HistorialCuenta" />
+          <NavigationProperty Name="Pago" Relationship="FinanzasModel.FK_Pago_DetalleCuenta1" FromRole="DetalleCuenta" ToRole="Pago" />
         </EntityType>
         <EntityType Name="EstadoDetalleCuenta">
           <Key>
             <PropertyRef Name="EstadoID" />
           </Key>
           <Property Name="EstadoID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="DetalleCuenta" Relationship="Self.FK_DetalleCuenta_EstadoDetalleCuenta" FromRole="EstadoDetalleCuenta" ToRole="DetalleCuenta" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="DetalleCuenta" Relationship="FinanzasModel.FK_DetalleCuenta_EstadoDetalleCuenta" FromRole="EstadoDetalleCuenta" ToRole="DetalleCuenta" />
         </EntityType>
         <EntityType Name="HistorialCuenta">
           <Key>
@@ -408,10 +404,10 @@
           </Key>
           <Property Name="HistorialCuentaID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="DetalleCuentaID" Type="Int32" Nullable="false" />
-          <Property Name="MontoInicial" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
-          <Property Name="MontoFinal" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="MontoInicial" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="MontoFinal" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="FechaHistorial" Type="DateTime" Nullable="false" Precision="0" />
-          <NavigationProperty Name="DetalleCuenta" Relationship="Self.FK_HistorialCuenta_DetalleCuenta1" FromRole="HistorialCuenta" ToRole="DetalleCuenta" />
+          <NavigationProperty Name="DetalleCuenta" Relationship="FinanzasModel.FK_HistorialCuenta_DetalleCuenta1" FromRole="HistorialCuenta" ToRole="DetalleCuenta" />
         </EntityType>
         <EntityType Name="Pago">
           <Key>
@@ -421,18 +417,18 @@
           <Property Name="PagoID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="DetalleCuentaID" Type="Int32" Nullable="false" />
           <Property Name="FechaPago" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="MontoPago" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
-          <NavigationProperty Name="DetalleCuenta" Relationship="Self.FK_Pago_DetalleCuenta1" FromRole="Pago" ToRole="DetalleCuenta" />
+          <Property Name="MontoPago" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <NavigationProperty Name="DetalleCuenta" Relationship="FinanzasModel.FK_Pago_DetalleCuenta1" FromRole="Pago" ToRole="DetalleCuenta" />
         </EntityType>
         <EntityType Name="Producto">
           <Key>
             <PropertyRef Name="ProductoID" />
           </Key>
           <Property Name="ProductoID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="PrecioUnitario" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
-          <Property Name="ImagenReferencial" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
-          <NavigationProperty Name="ProductoCompra" Relationship="Self.FK_ProductoCompra_Producto" FromRole="Producto" ToRole="ProductoCompra" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PrecioUnitario" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="ImagenReferencial" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ProductoCompra" Relationship="FinanzasModel.FK_ProductoCompra_Producto" FromRole="Producto" ToRole="ProductoCompra" />
         </EntityType>
         <EntityType Name="ProductoCompra">
           <Key>
@@ -442,77 +438,64 @@
           <Property Name="ProductoID" Type="Int32" Nullable="false" />
           <Property Name="CompraID" Type="Int32" Nullable="false" />
           <Property Name="Cantidad" Type="Int32" Nullable="false" />
-          <Property Name="PrecioUnitario" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="PrecioUnitario" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="Descuento" Type="Decimal" Precision="18" Scale="18" />
-          <NavigationProperty Name="Compra" Relationship="Self.FK_ProductoCompra_Compra1" FromRole="ProductoCompra" ToRole="Compra" />
-          <NavigationProperty Name="Producto" Relationship="Self.FK_ProductoCompra_Producto" FromRole="ProductoCompra" ToRole="Producto" />
+          <NavigationProperty Name="Compra" Relationship="FinanzasModel.FK_ProductoCompra_Compra1" FromRole="ProductoCompra" ToRole="Compra" />
+          <NavigationProperty Name="Producto" Relationship="FinanzasModel.FK_ProductoCompra_Producto" FromRole="ProductoCompra" ToRole="Producto" />
         </EntityType>
         <EntityType Name="TasaInteres">
           <Key>
             <PropertyRef Name="TasaInteresID" />
           </Key>
           <Property Name="TasaInteresID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Interes" Type="Decimal" Precision="18" Scale="18" Nullable="false" />
+          <Property Name="Interes" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
           <Property Name="TipoInteresID" Type="Int32" Nullable="false" />
           <Property Name="TiempoInteres" Type="Int32" Nullable="false" />
-          <Property Name="PeriodoCapitalizacion" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="DetalleCuenta" Relationship="Self.FK_DetalleCuenta_TasaInteres1" FromRole="TasaInteres" ToRole="DetalleCuenta" />
-          <NavigationProperty Name="DetalleCuenta1" Relationship="Self.FK_DetalleCuenta_TasaInteres2" FromRole="TasaInteres" ToRole="DetalleCuenta" />
-          <NavigationProperty Name="TipoInteres" Relationship="Self.FK_TasaInteres_TipoInteres" FromRole="TasaInteres" ToRole="TipoInteres" />
+          <Property Name="PeriodoCapitalizacion" Type="Int32" />
+          <NavigationProperty Name="DetalleCuenta" Relationship="FinanzasModel.FK_DetalleCuenta_TasaInteres2" FromRole="TasaInteres" ToRole="DetalleCuenta" />
+          <NavigationProperty Name="TipoInteres" Relationship="FinanzasModel.FK_TasaInteres_TipoInteres" FromRole="TasaInteres" ToRole="TipoInteres" />
         </EntityType>
         <EntityType Name="TipoInteres">
           <Key>
             <PropertyRef Name="TipoInteresID" />
           </Key>
           <Property Name="TipoInteresID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Nombre" Type="String" MaxLength="25" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="TasaInteres" Relationship="Self.FK_TasaInteres_TipoInteres" FromRole="TipoInteres" ToRole="TasaInteres" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TasaInteres" Relationship="FinanzasModel.FK_TasaInteres_TipoInteres" FromRole="TipoInteres" ToRole="TasaInteres" />
         </EntityType>
         <EntityType Name="Usuario">
           <Key>
             <PropertyRef Name="UsuarioID" />
           </Key>
           <Property Name="UsuarioID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="PrimerNombre" Type="String" MaxLength="25" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PrimerNombre" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
           <Property Name="SegundoNombre" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
-          <Property Name="ApellidoPaterno" Type="String" MaxLength="25" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="ApellidoMaterno" Type="String" MaxLength="25" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ApellidoPaterno" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="ApellidoMaterno" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
           <Property Name="FechaNacimiento" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="DNI" Type="Int32" Nullable="false" />
-          <Property Name="Direccion" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Direccion" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Telefono" Type="Int32" Nullable="false" />
-          <Property Name="Correo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Foto" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Cuenta" Relationship="Self.FK_Cuenta_Usuario" FromRole="Usuario" ToRole="Cuenta" />
+          <Property Name="Correo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Foto" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Cuenta" Relationship="FinanzasModel.FK_Cuenta_Usuario" FromRole="Usuario" ToRole="Cuenta" />
         </EntityType>
         <Association Name="FK_Compra_DetalleCuenta">
-          <End Role="DetalleCuenta" Type="Self.DetalleCuenta" Multiplicity="1" />
-          <End Role="Compra" Type="Self.Compra" Multiplicity="*" />
+          <End Type="FinanzasModel.DetalleCuenta" Role="DetalleCuenta" Multiplicity="1" />
+          <End Type="FinanzasModel.Compra" Role="Compra" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="DetalleCuenta">
               <PropertyRef Name="DetallaCuentaID" />
             </Principal>
             <Dependent Role="Compra">
-              <PropertyRef Name="CuentaID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_DetalleCompra_Compra">
-          <End Role="Compra" Type="Self.Compra" Multiplicity="1" />
-          <End Role="DetalleCompra" Type="Self.DetalleCompra" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Compra">
-              <PropertyRef Name="CompraID" />
-            </Principal>
-            <Dependent Role="DetalleCompra">
-              <PropertyRef Name="CompraID" />
+              <PropertyRef Name="DetalleCuentaID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_ProductoCompra_Compra1">
-          <End Role="Compra" Type="Self.Compra" Multiplicity="1" />
-          <End Role="ProductoCompra" Type="Self.ProductoCompra" Multiplicity="*" />
+          <End Type="FinanzasModel.Compra" Role="Compra" Multiplicity="1" />
+          <End Type="FinanzasModel.ProductoCompra" Role="ProductoCompra" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Compra">
               <PropertyRef Name="CompraID" />
@@ -523,8 +506,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Cuenta_Usuario">
-          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
-          <End Role="Cuenta" Type="Self.Cuenta" Multiplicity="0..1" />
+          <End Type="FinanzasModel.Usuario" Role="Usuario" Multiplicity="1" />
+          <End Type="FinanzasModel.Cuenta" Role="Cuenta" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="Usuario">
               <PropertyRef Name="UsuarioID" />
@@ -535,8 +518,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_DetalleCuenta_Cuenta">
-          <End Role="Cuenta" Type="Self.Cuenta" Multiplicity="1" />
-          <End Role="DetalleCuenta" Type="Self.DetalleCuenta" Multiplicity="*" />
+          <End Type="FinanzasModel.Cuenta" Role="Cuenta" Multiplicity="1" />
+          <End Type="FinanzasModel.DetalleCuenta" Role="DetalleCuenta" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Cuenta">
               <PropertyRef Name="CuentaID" />
@@ -547,8 +530,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_DetalleCuenta_EstadoDetalleCuenta">
-          <End Role="EstadoDetalleCuenta" Type="Self.EstadoDetalleCuenta" Multiplicity="1" />
-          <End Role="DetalleCuenta" Type="Self.DetalleCuenta" Multiplicity="*" />
+          <End Type="FinanzasModel.EstadoDetalleCuenta" Role="EstadoDetalleCuenta" Multiplicity="1" />
+          <End Type="FinanzasModel.DetalleCuenta" Role="DetalleCuenta" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="EstadoDetalleCuenta">
               <PropertyRef Name="EstadoID" />
@@ -558,21 +541,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_DetalleCuenta_TasaInteres1">
-          <End Role="TasaInteres" Type="Self.TasaInteres" Multiplicity="0..1" />
-          <End Role="DetalleCuenta" Type="Self.DetalleCuenta" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TasaInteres">
-              <PropertyRef Name="TasaInteresID" />
-            </Principal>
-            <Dependent Role="DetalleCuenta">
-              <PropertyRef Name="TasaInteresCompensatoriaID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_DetalleCuenta_TasaInteres2">
-          <End Role="TasaInteres" Type="Self.TasaInteres" Multiplicity="1" />
-          <End Role="DetalleCuenta" Type="Self.DetalleCuenta" Multiplicity="*" />
+          <End Type="FinanzasModel.TasaInteres" Role="TasaInteres" Multiplicity="1" />
+          <End Type="FinanzasModel.DetalleCuenta" Role="DetalleCuenta" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="TasaInteres">
               <PropertyRef Name="TasaInteresID" />
@@ -583,8 +554,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_HistorialCuenta_DetalleCuenta1">
-          <End Role="DetalleCuenta" Type="Self.DetalleCuenta" Multiplicity="1" />
-          <End Role="HistorialCuenta" Type="Self.HistorialCuenta" Multiplicity="*" />
+          <End Type="FinanzasModel.DetalleCuenta" Role="DetalleCuenta" Multiplicity="1" />
+          <End Type="FinanzasModel.HistorialCuenta" Role="HistorialCuenta" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="DetalleCuenta">
               <PropertyRef Name="DetallaCuentaID" />
@@ -595,8 +566,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Pago_DetalleCuenta1">
-          <End Role="DetalleCuenta" Type="Self.DetalleCuenta" Multiplicity="1" />
-          <End Role="Pago" Type="Self.Pago" Multiplicity="*" />
+          <End Type="FinanzasModel.DetalleCuenta" Role="DetalleCuenta" Multiplicity="1" />
+          <End Type="FinanzasModel.Pago" Role="Pago" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="DetalleCuenta">
               <PropertyRef Name="DetallaCuentaID" />
@@ -607,8 +578,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_ProductoCompra_Producto">
-          <End Role="Producto" Type="Self.Producto" Multiplicity="1" />
-          <End Role="ProductoCompra" Type="Self.ProductoCompra" Multiplicity="*" />
+          <End Type="FinanzasModel.Producto" Role="Producto" Multiplicity="1" />
+          <End Type="FinanzasModel.ProductoCompra" Role="ProductoCompra" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Producto">
               <PropertyRef Name="ProductoID" />
@@ -619,8 +590,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_TasaInteres_TipoInteres">
-          <End Role="TipoInteres" Type="Self.TipoInteres" Multiplicity="1" />
-          <End Role="TasaInteres" Type="Self.TasaInteres" Multiplicity="*" />
+          <End Type="FinanzasModel.TipoInteres" Role="TipoInteres" Multiplicity="1" />
+          <End Type="FinanzasModel.TasaInteres" Role="TasaInteres" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="TipoInteres">
               <PropertyRef Name="TipoInteresID" />
@@ -630,68 +601,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="FinanzasEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Compra" EntityType="Self.Compra" />
-          <EntitySet Name="Cuenta" EntityType="Self.Cuenta" />
-          <EntitySet Name="DetalleCompra" EntityType="Self.DetalleCompra" />
-          <EntitySet Name="DetalleCuenta" EntityType="Self.DetalleCuenta" />
-          <EntitySet Name="EstadoDetalleCuenta" EntityType="Self.EstadoDetalleCuenta" />
-          <EntitySet Name="HistorialCuenta" EntityType="Self.HistorialCuenta" />
-          <EntitySet Name="Pago" EntityType="Self.Pago" />
-          <EntitySet Name="Producto" EntityType="Self.Producto" />
-          <EntitySet Name="ProductoCompra" EntityType="Self.ProductoCompra" />
-          <EntitySet Name="TasaInteres" EntityType="Self.TasaInteres" />
-          <EntitySet Name="TipoInteres" EntityType="Self.TipoInteres" />
-          <EntitySet Name="Usuario" EntityType="Self.Usuario" />
-          <AssociationSet Name="FK_Compra_DetalleCuenta" Association="Self.FK_Compra_DetalleCuenta">
-            <End Role="DetalleCuenta" EntitySet="DetalleCuenta" />
-            <End Role="Compra" EntitySet="Compra" />
-          </AssociationSet>
-          <AssociationSet Name="FK_DetalleCompra_Compra" Association="Self.FK_DetalleCompra_Compra">
-            <End Role="Compra" EntitySet="Compra" />
-            <End Role="DetalleCompra" EntitySet="DetalleCompra" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ProductoCompra_Compra1" Association="Self.FK_ProductoCompra_Compra1">
-            <End Role="Compra" EntitySet="Compra" />
-            <End Role="ProductoCompra" EntitySet="ProductoCompra" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Cuenta_Usuario" Association="Self.FK_Cuenta_Usuario">
-            <End Role="Usuario" EntitySet="Usuario" />
-            <End Role="Cuenta" EntitySet="Cuenta" />
-          </AssociationSet>
-          <AssociationSet Name="FK_DetalleCuenta_Cuenta" Association="Self.FK_DetalleCuenta_Cuenta">
-            <End Role="Cuenta" EntitySet="Cuenta" />
-            <End Role="DetalleCuenta" EntitySet="DetalleCuenta" />
-          </AssociationSet>
-          <AssociationSet Name="FK_DetalleCuenta_EstadoDetalleCuenta" Association="Self.FK_DetalleCuenta_EstadoDetalleCuenta">
-            <End Role="EstadoDetalleCuenta" EntitySet="EstadoDetalleCuenta" />
-            <End Role="DetalleCuenta" EntitySet="DetalleCuenta" />
-          </AssociationSet>
-          <AssociationSet Name="FK_DetalleCuenta_TasaInteres1" Association="Self.FK_DetalleCuenta_TasaInteres1">
-            <End Role="TasaInteres" EntitySet="TasaInteres" />
-            <End Role="DetalleCuenta" EntitySet="DetalleCuenta" />
-          </AssociationSet>
-          <AssociationSet Name="FK_DetalleCuenta_TasaInteres2" Association="Self.FK_DetalleCuenta_TasaInteres2">
-            <End Role="TasaInteres" EntitySet="TasaInteres" />
-            <End Role="DetalleCuenta" EntitySet="DetalleCuenta" />
-          </AssociationSet>
-          <AssociationSet Name="FK_HistorialCuenta_DetalleCuenta1" Association="Self.FK_HistorialCuenta_DetalleCuenta1">
-            <End Role="DetalleCuenta" EntitySet="DetalleCuenta" />
-            <End Role="HistorialCuenta" EntitySet="HistorialCuenta" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Pago_DetalleCuenta1" Association="Self.FK_Pago_DetalleCuenta1">
-            <End Role="DetalleCuenta" EntitySet="DetalleCuenta" />
-            <End Role="Pago" EntitySet="Pago" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ProductoCompra_Producto" Association="Self.FK_ProductoCompra_Producto">
-            <End Role="Producto" EntitySet="Producto" />
-            <End Role="ProductoCompra" EntitySet="ProductoCompra" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TasaInteres_TipoInteres" Association="Self.FK_TasaInteres_TipoInteres">
-            <End Role="TipoInteres" EntitySet="TipoInteres" />
-            <End Role="TasaInteres" EntitySet="TasaInteres" />
-          </AssociationSet>
-        </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -701,131 +610,121 @@
           <EntitySetMapping Name="Compra">
             <EntityTypeMapping TypeName="FinanzasModel.Compra">
               <MappingFragment StoreEntitySet="Compra">
-                <ScalarProperty Name="CompraID" ColumnName="CompraID" />
-                <ScalarProperty Name="CuentaID" ColumnName="CuentaID" />
-                <ScalarProperty Name="FechaCompra" ColumnName="FechaCompra" />
                 <ScalarProperty Name="MontoTotal" ColumnName="MontoTotal" />
+                <ScalarProperty Name="FechaCompra" ColumnName="FechaCompra" />
+                <ScalarProperty Name="DetalleCuentaID" ColumnName="DetalleCuentaID" />
+                <ScalarProperty Name="CompraID" ColumnName="CompraID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Cuenta">
             <EntityTypeMapping TypeName="FinanzasModel.Cuenta">
               <MappingFragment StoreEntitySet="Cuenta">
-                <ScalarProperty Name="CuentaID" ColumnName="CuentaID" />
-                <ScalarProperty Name="FechaApertura" ColumnName="FechaApertura" />
-                <ScalarProperty Name="FechaClausura" ColumnName="FechaClausura" />
                 <ScalarProperty Name="EsActiva" ColumnName="EsActiva" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="DetalleCompra">
-            <EntityTypeMapping TypeName="FinanzasModel.DetalleCompra">
-              <MappingFragment StoreEntitySet="DetalleCompra">
-                <ScalarProperty Name="DetalleCompraID" ColumnName="DetalleCompraID" />
-                <ScalarProperty Name="CompraID" ColumnName="CompraID" />
-                <ScalarProperty Name="MontoParcial" ColumnName="MontoParcial" />
-                <ScalarProperty Name="EsEfectivo" ColumnName="EsEfectivo" />
+                <ScalarProperty Name="FechaClausura" ColumnName="FechaClausura" />
+                <ScalarProperty Name="FechaApertura" ColumnName="FechaApertura" />
+                <ScalarProperty Name="CuentaID" ColumnName="CuentaID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="DetalleCuenta">
             <EntityTypeMapping TypeName="FinanzasModel.DetalleCuenta">
               <MappingFragment StoreEntitySet="DetalleCuenta">
-                <ScalarProperty Name="DetallaCuentaID" ColumnName="DetallaCuentaID" />
-                <ScalarProperty Name="CuentaID" ColumnName="CuentaID" />
-                <ScalarProperty Name="TasaInteresCompensatoriaID" ColumnName="TasaInteresCompensatoriaID" />
-                <ScalarProperty Name="TasaInteresMoratoriaID" ColumnName="TasaInteresMoratoriaID" />
-                <ScalarProperty Name="FechaInicio" ColumnName="FechaInicio" />
-                <ScalarProperty Name="FechaFinal" ColumnName="FechaFinal" />
-                <ScalarProperty Name="PagoInicial" ColumnName="PagoInicial" />
+                <ScalarProperty Name="ComisionPagoTardio" ColumnName="ComisionPagoTardio" />
                 <ScalarProperty Name="EstadoID" ColumnName="EstadoID" />
+                <ScalarProperty Name="PagoInicial" ColumnName="PagoInicial" />
+                <ScalarProperty Name="FechaFinal" ColumnName="FechaFinal" />
+                <ScalarProperty Name="FechaInicio" ColumnName="FechaInicio" />
+                <ScalarProperty Name="TasaInteresMoratoriaID" ColumnName="TasaInteresMoratoriaID" />
+                <ScalarProperty Name="CuentaID" ColumnName="CuentaID" />
+                <ScalarProperty Name="DetallaCuentaID" ColumnName="DetallaCuentaID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="EstadoDetalleCuenta">
             <EntityTypeMapping TypeName="FinanzasModel.EstadoDetalleCuenta">
               <MappingFragment StoreEntitySet="EstadoDetalleCuenta">
-                <ScalarProperty Name="EstadoID" ColumnName="EstadoID" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="EstadoID" ColumnName="EstadoID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="HistorialCuenta">
             <EntityTypeMapping TypeName="FinanzasModel.HistorialCuenta">
               <MappingFragment StoreEntitySet="HistorialCuenta">
-                <ScalarProperty Name="HistorialCuentaID" ColumnName="HistorialCuentaID" />
-                <ScalarProperty Name="DetalleCuentaID" ColumnName="DetalleCuentaID" />
-                <ScalarProperty Name="MontoInicial" ColumnName="MontoInicial" />
-                <ScalarProperty Name="MontoFinal" ColumnName="MontoFinal" />
                 <ScalarProperty Name="FechaHistorial" ColumnName="FechaHistorial" />
+                <ScalarProperty Name="MontoFinal" ColumnName="MontoFinal" />
+                <ScalarProperty Name="MontoInicial" ColumnName="MontoInicial" />
+                <ScalarProperty Name="DetalleCuentaID" ColumnName="DetalleCuentaID" />
+                <ScalarProperty Name="HistorialCuentaID" ColumnName="HistorialCuentaID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Pago">
             <EntityTypeMapping TypeName="FinanzasModel.Pago">
               <MappingFragment StoreEntitySet="Pago">
-                <ScalarProperty Name="PagoID" ColumnName="PagoID" />
-                <ScalarProperty Name="DetalleCuentaID" ColumnName="DetalleCuentaID" />
-                <ScalarProperty Name="FechaPago" ColumnName="FechaPago" />
                 <ScalarProperty Name="MontoPago" ColumnName="MontoPago" />
+                <ScalarProperty Name="FechaPago" ColumnName="FechaPago" />
+                <ScalarProperty Name="DetalleCuentaID" ColumnName="DetalleCuentaID" />
+                <ScalarProperty Name="PagoID" ColumnName="PagoID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Producto">
             <EntityTypeMapping TypeName="FinanzasModel.Producto">
               <MappingFragment StoreEntitySet="Producto">
-                <ScalarProperty Name="ProductoID" ColumnName="ProductoID" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="PrecioUnitario" ColumnName="PrecioUnitario" />
                 <ScalarProperty Name="ImagenReferencial" ColumnName="ImagenReferencial" />
+                <ScalarProperty Name="PrecioUnitario" ColumnName="PrecioUnitario" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="ProductoID" ColumnName="ProductoID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ProductoCompra">
             <EntityTypeMapping TypeName="FinanzasModel.ProductoCompra">
               <MappingFragment StoreEntitySet="ProductoCompra">
-                <ScalarProperty Name="ProductoID" ColumnName="ProductoID" />
-                <ScalarProperty Name="CompraID" ColumnName="CompraID" />
-                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
-                <ScalarProperty Name="PrecioUnitario" ColumnName="PrecioUnitario" />
                 <ScalarProperty Name="Descuento" ColumnName="Descuento" />
+                <ScalarProperty Name="PrecioUnitario" ColumnName="PrecioUnitario" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="CompraID" ColumnName="CompraID" />
+                <ScalarProperty Name="ProductoID" ColumnName="ProductoID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TasaInteres">
             <EntityTypeMapping TypeName="FinanzasModel.TasaInteres">
               <MappingFragment StoreEntitySet="TasaInteres">
-                <ScalarProperty Name="TasaInteresID" ColumnName="TasaInteresID" />
-                <ScalarProperty Name="Interes" ColumnName="Interes" />
-                <ScalarProperty Name="TipoInteresID" ColumnName="TipoInteresID" />
-                <ScalarProperty Name="TiempoInteres" ColumnName="TiempoInteres" />
                 <ScalarProperty Name="PeriodoCapitalizacion" ColumnName="PeriodoCapitalizacion" />
+                <ScalarProperty Name="TiempoInteres" ColumnName="TiempoInteres" />
+                <ScalarProperty Name="TipoInteresID" ColumnName="TipoInteresID" />
+                <ScalarProperty Name="Interes" ColumnName="Interes" />
+                <ScalarProperty Name="TasaInteresID" ColumnName="TasaInteresID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TipoInteres">
             <EntityTypeMapping TypeName="FinanzasModel.TipoInteres">
               <MappingFragment StoreEntitySet="TipoInteres">
-                <ScalarProperty Name="TipoInteresID" ColumnName="TipoInteresID" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="TipoInteresID" ColumnName="TipoInteresID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Usuario">
             <EntityTypeMapping TypeName="FinanzasModel.Usuario">
               <MappingFragment StoreEntitySet="Usuario">
-                <ScalarProperty Name="UsuarioID" ColumnName="UsuarioID" />
-                <ScalarProperty Name="PrimerNombre" ColumnName="PrimerNombre" />
-                <ScalarProperty Name="SegundoNombre" ColumnName="SegundoNombre" />
-                <ScalarProperty Name="ApellidoPaterno" ColumnName="ApellidoPaterno" />
-                <ScalarProperty Name="ApellidoMaterno" ColumnName="ApellidoMaterno" />
-                <ScalarProperty Name="FechaNacimiento" ColumnName="FechaNacimiento" />
-                <ScalarProperty Name="DNI" ColumnName="DNI" />
-                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
-                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
-                <ScalarProperty Name="Correo" ColumnName="Correo" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="Foto" ColumnName="Foto" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Correo" ColumnName="Correo" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="DNI" ColumnName="DNI" />
+                <ScalarProperty Name="FechaNacimiento" ColumnName="FechaNacimiento" />
+                <ScalarProperty Name="ApellidoMaterno" ColumnName="ApellidoMaterno" />
+                <ScalarProperty Name="ApellidoPaterno" ColumnName="ApellidoPaterno" />
+                <ScalarProperty Name="SegundoNombre" ColumnName="SegundoNombre" />
+                <ScalarProperty Name="PrimerNombre" ColumnName="PrimerNombre" />
+                <ScalarProperty Name="UsuarioID" ColumnName="UsuarioID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

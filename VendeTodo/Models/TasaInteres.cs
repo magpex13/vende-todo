@@ -18,19 +18,16 @@ namespace VendeTodo.Models
         public TasaInteres()
         {
             this.DetalleCuenta = new HashSet<DetalleCuenta>();
-            this.DetalleCuenta1 = new HashSet<DetalleCuenta>();
         }
     
         public int TasaInteresID { get; set; }
         public decimal Interes { get; set; }
         public int TipoInteresID { get; set; }
         public int TiempoInteres { get; set; }
-        public int PeriodoCapitalizacion { get; set; }
+        public Nullable<int> PeriodoCapitalizacion { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DetalleCuenta> DetalleCuenta { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DetalleCuenta> DetalleCuenta1 { get; set; }
         public virtual TipoInteres TipoInteres { get; set; }
     }
 }
